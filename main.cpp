@@ -176,9 +176,13 @@ void newtile()
 	tilepos = vec2(5 , 19);
 	rotation = 0;
 
+	// 随机选择一个形状
+	std::uniform_int_distribution<int> randShape(0, 6);
+	int randShapIndex = randShape(DRE);
+	currentRotationShape = p_allRotations_shap[randShapIndex];
 	for (int i = 0; i < 4; i++)
 	{
-		tile[i] = allRotationsLshape[0][i];
+		tile[i] = (*currentRotationShape)[0][i];
 	}
 
 	updatetile();
@@ -344,6 +348,7 @@ void rotate()
 	int nextrotation = (rotation + 1) % 4;
 
 	// 检查当前旋转之后的位置的有效性
+#if 0
 	if (checkvalid((allRotationsLshape[nextrotation][0]) + tilepos)
 		&& checkvalid((allRotationsLshape[nextrotation][1]) + tilepos)
 		&& checkvalid((allRotationsLshape[nextrotation][2]) + tilepos)
@@ -353,6 +358,19 @@ void rotate()
 		rotation = nextrotation;
 		for (int i = 0; i < 4; i++)
 			tile[i] = allRotationsLshape[rotation][i];
+
+		updatetile();
+	}
+#endif
+	if (checkvalid(((*currentRotationShape)[nextrotation][0]) + tilepos)
+		&& checkvalid(((*currentRotationShape)[nextrotation][1]) + tilepos)
+		&& checkvalid(((*currentRotationShape)[nextrotation][2]) + tilepos)
+		&& checkvalid(((*currentRotationShape)[nextrotation][3]) + tilepos))
+	{
+		// 更新旋转，将当前方块设置为旋转之后的方块
+		rotation = nextrotation;
+		for (int i = 0; i < 4; i++)
+			tile[i] = (*currentRotationShape)[rotation][i];
 
 		updatetile();
 	}
