@@ -83,7 +83,7 @@ vec2 allRotationsZshape[4][4] = {
 	{vec2(0, 0), vec2(0, -1), vec2(1, 0), vec2(1, 1)}
 };
 
-// 指向各个形状的指针数组及当前的形状
+// 指向各个形状的数组指针及当前的形状
 vector<vec2(*)[4][4]> p_allRotations_shap = {
 	&allRotationsLshape, &allRotationsIshape, &allRotationsOshape, &allRotationsJshape,
 	&allRotationsSshape, &allRotationsTshape, &allRotationsZshape

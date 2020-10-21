@@ -9,12 +9,13 @@
 
 	1. 目前需要修改的函数
 
-		- tile
-		- tilepos
-		- allRotationLshape
-		- rotate
+		
 
 	2. 需要添加新的形状及旋转方向
+		- 利用数组指针p_allRotations_shap存储几种不同的形状以及不同的方向
+		- 利用指针currentRotationShape来指向目前的形状
+		- 利用随机数生成器来产生0至6的均匀随机数以便在newtile时产生不同的形状
+		- 注意，使用到当前形状的的有newtile函数和rotate函数
 
 # 图形验证
 # 数据库分管用户
