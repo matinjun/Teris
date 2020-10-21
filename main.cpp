@@ -27,6 +27,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <vector>
 
 using namespace std;
 
@@ -40,7 +41,7 @@ bool gameover = false;	// 游戏结束控制变量
 int xsize = 400;		// 窗口大小（尽量不要变动窗口大小！）
 int ysize = 720;
 
-// 一个二维数组表示所有可能出现的方块和方向。
+// 二维数组表示所有可能出现的方块和方向。
 vec2 allRotationsLshape[4][4] =
 							  {{vec2(0, 0), vec2(-1,0), vec2(1, 0), vec2(-1,-1)},	//   "L"
 							   {vec2(0, 1), vec2(0, 0), vec2(0,-1), vec2(1, -1)},   //
@@ -58,11 +59,36 @@ vec2 allRotationsTshape[4][4] = {
 	{vec2(-1, 0), vec2( 0,-1), vec2( 0, 0), vec2( 0, 1)}
 };
 vec2 allRotationsOshape[4][4] = {
-	{vec2(-1, 0), vec2(0, 0), vec2(1, 0), vec2(0,-1)},	// "O"
-	{vec2(0,-1), vec2(0, 0), vec2(0, 1), vec2(1, 0)},
-	{vec2(-1, 0), vec2(0, 0), vec2(1, 0), vec2(0, 1)},
-	{vec2(-1, 0), vec2(0,-1), vec2(0, 0), vec2(0, 1)}
+	{vec2( 0, 0), vec2( 0,-1), vec2(-1, -1), vec2(-1, 0)},	// "O"
+	{vec2(0, 0), vec2(0,-1), vec2(-1, -1), vec2(-1, 0)},
+	{vec2(0, 0), vec2(0,-1), vec2(-1, -1), vec2(-1, 0)},
+	{vec2(0, 0), vec2(0,-1), vec2(-1, -1), vec2(-1, 0)}
 };
+vec2 allRotationsIshape[4][4] = {
+	{vec2(0, 0), vec2(1, 0), vec2(-1, 0), vec2(-2, 0)},	// "I"
+	{vec2(0, 1), vec2(0, 0), vec2(0, -1), vec2(0, -2)},
+	{vec2(0, 0), vec2(1, 0), vec2(-1, 0), vec2(-2, 0)},	// "I"
+	{vec2(0, 1), vec2(0, 0), vec2(0, -1), vec2(0, -2)}
+};
+vec2 allRotationsSshape[4][4] = {
+	{vec2(-1, -1), vec2(0,0), vec2(0,-1), vec2(1,0)},	// "S"
+	{vec2(0, 0), vec2(0, 1), vec2(1, 0), vec2(1, -1)},
+	{vec2(-1, -1), vec2(0,0), vec2(0,-1), vec2(1,0)},
+	{vec2(0, 0), vec2(0, 1), vec2(1, 0), vec2(1, -1)}
+};
+vec2 allRotationsZshape[4][4] = {
+	{vec2(-1, 0), vec2(0,0), vec2(0, -1), vec2(1, -1)},	// "Z"
+	{vec2(0, 0), vec2(0, -1), vec2(1, 0), vec2(1, 1)},
+	{vec2(-1, 0), vec2(0,0), vec2(0, -1), vec2(1, -1)},
+	{vec2(0, 0), vec2(0, -1), vec2(1, 0), vec2(1, 1)}
+};
+
+// 指向各个形状的指针数组及当前的形状
+vector<vec2(*)[4][4]> p_allRotations_shap = {
+	&allRotationsLshape, &allRotationsIshape, &allRotationsOshape, &allRotationsJshape,
+	&allRotationsSshape, &allRotationsTshape, &allRotationsZshape
+};
+vec2 (*currentRotationShape)[4][4] = p_allRotations_shap[0];
 
 // 绘制窗口的颜色变量
 vec4 orange = vec4(1.0, 0.5, 0.0, 1.0);
