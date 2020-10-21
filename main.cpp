@@ -333,7 +333,13 @@ void init()
 
 bool checkvalid(vec2 cellpos)
 {
-	if((cellpos.x >=0) && (cellpos.x < 10) && (cellpos.y >= 0) && (cellpos.y < 20) )
+	// 查看当前格子是否被填满
+	bool isNotFull = boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].x == 0.0 
+		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].y == 0.0 
+		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].z == 0.0
+		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].w == 1.0;
+	
+	if((cellpos.x >=0) && (cellpos.x < 10) && (cellpos.y >= 0) && (cellpos.y < 20) && isNotFull)
 		return true;
 	else
 		return false;
