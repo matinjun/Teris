@@ -169,7 +169,6 @@ void updatetile()
 // 设置当前方块为下一个即将出现的方块。在游戏开始的时候调用来创建一个初始的方块，
 // 在游戏结束的时候判断，没有足够的空间来生成新的方块。
 
-//此处可能是对应修改方格的颜色，形状
 void newtile()
 {
 	// 将新方块放于棋盘格的最上行中间位置并设置默认的旋转方向
@@ -180,9 +179,22 @@ void newtile()
 	std::uniform_int_distribution<int> randShape(0, 6);
 	int randShapIndex = randShape(DRE);
 	currentRotationShape = p_allRotations_shap[randShapIndex];
+	int tmpx, tmpy;
 	for (int i = 0; i < 4; i++)
 	{
 		tile[i] = (*currentRotationShape)[0][i];
+		
+		// 判断游戏是否结束
+		tmpx = tilepos.x + tile[i].x;
+		tmpy = tilepos.y + tile[i].y;
+		if (board[tmpx][tmpy]) {
+			gameover = true;
+		}
+	}
+	// 如果游戏失败，就结束游戏
+	if (gameover) {
+		gameover = false;
+		exit(EXIT_SUCCESS);
 	}
 
 	updatetile();
@@ -482,6 +494,7 @@ bool movetile(vec2 direction)
 
 void restart()
 {
+	gameover = false;
 	init();
 }
 
