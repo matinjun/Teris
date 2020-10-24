@@ -380,10 +380,39 @@ void rotate()
 }
 
 //////////////////////////////////////////////////////////////////////////
+// 消除某一行
+void removerow(int row) {
+	for (int i = 0; i < 10; ++i) {
+		int j = row + 1;
+		while (j < 20) {
+			// 更新当前格子的下面一格状态，包括是否被填满以及颜色
+			board[i][j - 1] = board[i][j];
+			changecellcolour(vec2(i, j - 1), boardcolours[(6 * (10 * j + i))]);
+
+			if (board[i][j] == false) {
+				break;
+			}
+			++j;
+		}
+		// 防止遗漏
+		if (j == 20) {
+			board[i][19] = false;
+			changecellcolour(vec2(i, 19), black);
+		}
+	}
+}
 // 检查棋盘格在row行有没有被填充满
 void checkfullrow(int row)
 {
-	//for(int j = 0; j < )
+	// 检查该行是否被填充满
+	bool isFull = true;
+	for (int i = 0; i < 10 && isFull; ++i) {
+		isFull = isFull && board[i][row];
+	}
+	// 如果填满，就消除该行
+	if (isFull) {
+		removerow(row);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -391,17 +420,31 @@ void checkfullrow(int row)
 
 void settile()
 {
+	int maxy = -1;
+	int miny = 100;
 	// 每个格子
 	for (int i = 0; i < 4; i++)
 	{
 		// 获取格子在棋盘格上的坐标
 		int x = (tile[i] + tilepos).x;
 		int y = (tile[i] + tilepos).y;
+
+		if (y > maxy) {
+			maxy = y;
+		}
+		if (y < miny) {
+			miny = y;
+		}
+
 		// 将格子对应在棋盘格上的位置设置为填充
 		board[x][y] = true;
 		// 并将相应位置的颜色修改
 		//changecellcolour(vec2(x,y), orange);
 		changecellcolour(vec2(x, y), curTileColor);
+	}
+	// 消除需要从上往下消除
+	for (int y = maxy; y >= miny; --y) {
+		checkfullrow(y);
 	}
 }
 

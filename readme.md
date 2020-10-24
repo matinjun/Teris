@@ -1,27 +1,36 @@
 # 颜色控制
 
 	1. 添加新的颜色blue, green, yellow, red
-	2. 使用curTileColor全局变量来控制当前格子的颜色
+	2. 使用**curTileColor**全局变量来控制当前格子的颜色
 	3. 通过随机数生成器来产生随机的颜色
 	4. 修改了newtile和settile
 
+
 # 形状
 
-	1. 目前需要修改的函数
-		- checkfullrow
-		
-
-	2. 需要添加新的形状及旋转方向
-		- 利用数组指针p_allRotations_shap存储几种不同的形状以及不同的方向
-		- 利用指针currentRotationShape来指向目前的形状
+	- 需要添加新的形状及旋转方向
+		- 利用数组指针**p_allRotations_shap**存储几种不同的形状以及不同的方向
+		- 利用指针**currentRotationShape**来指向目前的形状
 		- 利用随机数生成器来产生0至6的均匀随机数以便在newtile时产生不同的形状
-		- 注意，使用到当前形状的的有newtile函数和rotate函数
-	3. 对于碰撞的实现，主要是修改checkvalid函数，使用board数组查看当前格子是否被填满
+		- 注意，使用到当前形状的的有**newtile**函数和**rotate**函数
+
+# 碰撞
+
+	- 对于碰撞的实现，主要是修改**checkvalid**函数，使用board数组查看当前格子是否被填满
 
 # 自动下落
 
-	- 在默认回调函数void idle(void)中修改
+	- 在默认回调函数**void idle(void)**中修改
 	- 增加一个静态变量count主要是控制下落速度
+
+# 消除行
+
+	- 实现消除某行的操作
+		- 修改**checkfull**函数，首先判断该行是否满，如果满，需要进行消除行操作
+		- 消除总是出现在tile落到最低处或碰到其它格子后，即**settile**里需要被修改
+		- 如果该行被填满，该行以上的格子需要总体向下移动一格，因此，添加一个**removerow**函数
+			- 注意，整体下移时，需要同时将**boardcolors[i][j]**与当前格子的**颜色**考虑
+			- 参照数组里面的插入算法
 
 # 图形验证
 # 数据库分管用户
