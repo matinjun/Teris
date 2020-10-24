@@ -334,10 +334,7 @@ void init()
 bool checkvalid(vec2 cellpos)
 {
 	// 查看当前格子是否被填满
-	bool isNotFull = boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].x == 0.0 
-		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].y == 0.0 
-		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].z == 0.0
-		&& boardcolours[(int)(6 * (10 * cellpos.y + cellpos.x))].w == 1.0;
+	bool isNotFull = !board[(int)cellpos.x][(int)cellpos.y];
 	
 	if((cellpos.x >=0) && (cellpos.x < 10) && (cellpos.y >= 0) && (cellpos.y < 20) && isNotFull)
 		return true;
@@ -384,10 +381,9 @@ void rotate()
 
 //////////////////////////////////////////////////////////////////////////
 // 检查棋盘格在row行有没有被填充满
-//可能检查当前行有没有被填满
 void checkfullrow(int row)
 {
-
+	//for(int j = 0; j < )
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -443,7 +439,7 @@ bool movetile(vec2 direction)
 
 void restart()
 {
-
+	init();
 }
 
 //////////////////////////////////////////////////////////////////////////
