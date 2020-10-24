@@ -532,7 +532,22 @@ void keyboard(unsigned char key, int x, int y)
 
 void idle(void)
 {
+
+	// TODO: 回调函数实现自动向下移动，但是太快了
+	// 可以定义一个计时器，当达到预定时间才下移一格
+	static int count = 0;
+	count++;
+	if (count == 60) {
+		if (!movetile(vec2(0, -1)))
+		{
+			settile();
+			newtile();
+		}
+		count = 0;
+	}
+	
 	glutPostRedisplay();
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -552,7 +567,7 @@ int main(int argc, char **argv)
 	glutSpecialFunc(special);
 	glutKeyboardFunc(keyboard);
 	glutIdleFunc(idle);
-
+	
 	glutMainLoop();
 	return 0;
 }
